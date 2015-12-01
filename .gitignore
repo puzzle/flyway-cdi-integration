@@ -1,3 +1,5 @@
+.idea/
+flyway-cdi-integration.iml
 target/
 pom.xml.tag
 pom.xml.releaseBackup
