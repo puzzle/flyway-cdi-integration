@@ -6,7 +6,9 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
 import javax.enterprise.inject.spi.Extension;
+import javax.inject.Inject;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -20,15 +22,19 @@ public class FlywayMigrationService implements Extension {
 
     private static final Logger LOG = LoggerFactory.getLogger(FlywayMigrationService.class);
 
+    @Inject
+    private Event<AfterDatabaseMigration> eventManager;
+
     @PostConstruct
     public void onStartup() throws NamingException {
-        LOG.info("Setting Up Flyway " );
+        LOG.info("Setting Up Flyway ");
 
         Flyway flyway = new Flyway();
         flyway.setDataSource(getDataSource());
 
         flyway.migrate();
 
+        eventManager.fire(new AfterDatabaseMigration());
     }
 
     /**

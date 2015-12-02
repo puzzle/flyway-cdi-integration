@@ -15,6 +15,7 @@ This Maven Project integrates [Flyway](http://flywaydb.org/) Database Management
 </dependency>
 ```
 
+
 # Configuration
 
 The Flyway Migration Services expects a configured Datasource as JNDI Service usually provided by the Container or the Application Server.
@@ -26,3 +27,7 @@ flywaydb.cdi.integration.datasourcename
 ```
 
 Defaultvalue of the property is: defaultDS
+
+# Integration
+
+After a successful Database Migration the CDI Event org.flywaydb.cdi.AfterDatabaseMigration is fired. Observe this Event to run the hibernate schema validation for example
