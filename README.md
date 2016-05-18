@@ -9,7 +9,7 @@ This Maven Project integrates [Flyway](http://flywaydb.org/) Database Management
 ## add as Maven dependency
 ```
 <dependency>
-    <groupId>org.flywaydb</groupId>
+    <groupId>org.flywaydb.cdi</groupId>
     <artifactId>flyway-cdi-integration</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 </dependency>

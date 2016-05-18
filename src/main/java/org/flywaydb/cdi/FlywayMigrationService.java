@@ -26,15 +26,17 @@ public class FlywayMigrationService implements Extension {
     private Event<AfterDatabaseMigration> eventManager;
 
     @PostConstruct
-    public void onStartup() throws NamingException {
+    public void onStartup() {
         LOG.info("Setting Up Flyway ");
 
         Flyway flyway = new Flyway();
-        flyway.setDataSource(getDataSource());
-
-        flyway.migrate();
-
-        eventManager.fire(new AfterDatabaseMigration());
+        try {
+            flyway.setDataSource(getDataSource());
+            flyway.migrate();
+            eventManager.fire(new AfterDatabaseMigration());
+        } catch (NamingException e) {
+            LOG.error("Database migration failed");
+        }
     }
 
     /**
@@ -59,7 +61,7 @@ public class FlywayMigrationService implements Extension {
         return ds;
     }
 
-    private String getDatasourceSystemConfigurtaiton(){
+    private String getDatasourceSystemConfigurtaiton() {
         return System.getProperties().getProperty("flywaydb.cdi.integration.datasourcename", "defaultDS");
     }
 }
